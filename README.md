@@ -10,6 +10,7 @@ A modern web app to create Apple Wallet passes (.pkpass files). Built with Bun +
 
 - **Beautiful UI** — Dark theme with glassmorphism design and live pass preview
 - **Multiple Pass Types** — Loyalty cards, event tickets, boarding passes, coupons, gym memberships, coffee cards, library cards
+- **Advanced Options** — Set expiration dates and relevant dates for lock screen notifications
 - **Barcode Scanner** — Scan existing QR codes and barcodes with your device camera
 - **QR Code Sharing** — Generate QR codes to add passes directly to any iPhone
 - **Bilingual** — Full English and Turkish language support with auto-detection
@@ -164,6 +165,8 @@ cuzdan/
 | `bun run build` | Build for production |
 | `bun run compile` | Build + compile to single binary |
 | `bun run typecheck` | Check TypeScript types |
+| `bun test` | Run unit tests |
+| `bun test --watch` | Run tests in watch mode |
 
 ## Tech Stack
 
