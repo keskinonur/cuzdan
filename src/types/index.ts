@@ -40,9 +40,9 @@ export interface PassData {
   strip?: string | undefined;
   
   // Additional
-  expirationDate?: string;
-  relevantDate?: string;
-  locations?: Array<{ latitude: number; longitude: number; relevantText?: string }>;
+  expirationDate?: string | undefined;
+  relevantDate?: string | undefined;
+  locations?: Array<{ latitude: number; longitude: number; relevantText?: string }> | undefined;
 }
 
 export interface PassTemplate {

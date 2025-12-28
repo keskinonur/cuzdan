@@ -9,7 +9,9 @@ import {
   Share2,
   ChevronDown,
   Image as ImageIcon,
-  X
+  X,
+  Calendar,
+  Clock
 } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import type { PassData, BarcodeFormat } from '../types';
@@ -312,6 +314,68 @@ export function PassBuilder({ passData, onChange, onGenerate, isGenerating }: Pa
                 <p className="text-xs mt-1">{t('pngRecommended')}</p>
               </div>
             )}
+          </div>
+        </div>
+      </Section>
+
+      {/* Section: Advanced Options */}
+      <Section 
+        title={t('advancedOptions')} 
+        icon={Calendar}
+        isExpanded={expandedSection === 'advanced'}
+        onToggle={() => toggleSection('advanced')}
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm text-white/60 mb-2">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                {t('expirationDate')}
+              </div>
+            </label>
+            <p className="text-xs text-white/40 mb-2">{t('expirationDateDesc')}</p>
+            <div className="flex gap-2">
+              <input
+                type="datetime-local"
+                value={passData.expirationDate || ''}
+                onChange={(e) => onChange({ expirationDate: e.target.value || undefined })}
+                className="flex-1"
+              />
+              {passData.expirationDate && (
+                <button
+                  onClick={() => onChange({ expirationDate: undefined })}
+                  className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white text-sm transition-colors"
+                >
+                  {t('clearDate')}
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm text-white/60 mb-2">
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                {t('relevantDate')}
+              </div>
+            </label>
+            <p className="text-xs text-white/40 mb-2">{t('relevantDateDesc')}</p>
+            <div className="flex gap-2">
+              <input
+                type="datetime-local"
+                value={passData.relevantDate || ''}
+                onChange={(e) => onChange({ relevantDate: e.target.value || undefined })}
+                className="flex-1"
+              />
+              {passData.relevantDate && (
+                <button
+                  onClick={() => onChange({ relevantDate: undefined })}
+                  className="px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white text-sm transition-colors"
+                >
+                  {t('clearDate')}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </Section>

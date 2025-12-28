@@ -247,6 +247,16 @@ export const translations = {
     integrationExamples: 'Integration Examples',
     fetchApi: 'Fetch API',
     withFileSave: 'With file save',
+
+    // Advanced Options
+    advancedOptions: 'Advanced Options',
+    expirationDate: 'Expiration Date',
+    expirationDateDesc: 'Pass will be marked as expired after this date',
+    relevantDate: 'Relevant Date',
+    relevantDateDesc: 'Pass will show on lock screen on this date',
+    clearDate: 'Clear',
+    noExpiration: 'No expiration',
+    noRelevantDate: 'No relevant date',
   },
   tr: {
     // Header
@@ -494,6 +504,16 @@ export const translations = {
     integrationExamples: 'Entegrasyon Örnekleri',
     fetchApi: 'Fetch API',
     withFileSave: 'Dosya kaydetme ile',
+
+    // Advanced Options
+    advancedOptions: 'Gelişmiş Seçenekler',
+    expirationDate: 'Son Kullanma Tarihi',
+    expirationDateDesc: 'Bu tarihten sonra kart süresi dolmuş olarak işaretlenir',
+    relevantDate: 'İlgili Tarih',
+    relevantDateDesc: 'Bu tarihte kart kilit ekranında gösterilir',
+    clearDate: 'Temizle',
+    noExpiration: 'Süre sınırı yok',
+    noRelevantDate: 'İlgili tarih yok',
   },
 } as const;
 
