@@ -286,7 +286,7 @@ function getPassStructure(_passType: string, data: PassData) {
   return structure;
 }
 
-function hexToRgb(hex: string): string {
+export function hexToRgb(hex: string): string {
   if (hex.startsWith('rgb')) return hex;
   
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
