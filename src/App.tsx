@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -8,11 +8,13 @@ import { TemplateSelector } from './components/TemplateSelector';
 import { Footer } from './components/Footer';
 import { BackgroundEffects } from './components/BackgroundEffects';
 import { ShareModal } from './components/ShareModal';
-import { Docs } from './pages/Docs';
-import { Api } from './pages/Api';
 import { useLanguage } from './lib/LanguageContext';
 import type { PassData, PassTemplate } from './types';
 import { Eye, EyeOff } from 'lucide-react';
+
+// Lazy load pages for code splitting
+const Docs = lazy(() => import('./pages/Docs').then(m => ({ default: m.Docs })));
+const Api = lazy(() => import('./pages/Api').then(m => ({ default: m.Api })));
 
 type Page = 'home' | 'docs' | 'api';
 
@@ -180,7 +182,9 @@ export default function App() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <Docs />
+                <Suspense fallback={<PageLoader />}>
+                  <Docs />
+                </Suspense>
               </motion.div>
             ) : page === 'api' ? (
               <motion.div
@@ -189,7 +193,9 @@ export default function App() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <Api />
+                <Suspense fallback={<PageLoader />}>
+                  <Api />
+                </Suspense>
               </motion.div>
             ) : !showBuilder ? (
               <motion.div
@@ -262,6 +268,15 @@ export default function App() {
         passTitle={shareInfo?.passTitle || ''}
         onDirectDownload={handleDirectDownload}
       />
+    </div>
+  );
+}
+
+// Loading component for lazy-loaded pages
+function PageLoader() {
+  return (
+    <div className="flex items-center justify-center min-h-[50vh]">
+      <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
     </div>
   );
 }

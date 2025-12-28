@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Camera, 
@@ -13,8 +13,10 @@ import {
 } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import type { PassData, BarcodeFormat } from '../types';
-import { BarcodeScanner } from './BarcodeScanner';
 import { useLanguage } from '../lib/LanguageContext';
+
+// Lazy load the BarcodeScanner to reduce initial bundle size (jsqr is ~60KB)
+const BarcodeScanner = lazy(() => import('./BarcodeScanner').then(m => ({ default: m.BarcodeScanner })));
 
 interface PassBuilderProps {
   passData: PassData;
@@ -348,11 +350,22 @@ export function PassBuilder({ passData, onChange, onGenerate, isGenerating }: Pa
 
       {/* Barcode Scanner Modal */}
       {showScanner && (
-        <BarcodeScanner
-          onResult={handleScanResult}
-          onClose={() => setShowScanner(false)}
-        />
+        <Suspense fallback={<ScannerLoader />}>
+          <BarcodeScanner
+            onResult={handleScanResult}
+            onClose={() => setShowScanner(false)}
+          />
+        </Suspense>
       )}
+    </div>
+  );
+}
+
+// Loading component for lazy-loaded scanner
+function ScannerLoader() {
+  return (
+    <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
     </div>
   );
 }

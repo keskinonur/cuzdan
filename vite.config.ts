@@ -20,5 +20,16 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist/client',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor chunks for better caching
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-motion': ['framer-motion'],
+          'vendor-icons': ['lucide-react'],
+          // jsqr and qrcode are lazy loaded via BarcodeScanner
+        },
+      },
+    },
   },
 });
