@@ -152,7 +152,7 @@ export function PassPreview({ passData }: PassPreviewProps) {
           {/* Barcode Section */}
           <div className="p-5 pt-2">
             <div className="bg-white rounded-xl p-4 flex flex-col items-center">
-              {passData.barcodeData ? (
+                {passData.barcodeData ? (
                 <>
                   {passData.barcodeFormat === 'PKBarcodeFormatQR' && qrCodeUrl ? (
                     <img 
@@ -161,8 +161,16 @@ export function PassPreview({ passData }: PassPreviewProps) {
                       className="w-40 h-40"
                     />
                   ) : passData.barcodeFormat === 'PKBarcodeFormatCode128' ? (
-                    <div className="w-full h-16 bg-gradient-to-b from-black via-black to-black bg-[length:2px_100%] bg-repeat-x flex items-center justify-center relative">
+                    <div className="w-full h-16 flex items-center justify-center">
                       <Code128Barcode data={passData.barcodeData} />
+                    </div>
+                  ) : passData.barcodeFormat === 'PKBarcodeFormatPDF417' ? (
+                    <div className="w-full flex items-center justify-center">
+                      <PDF417Barcode data={passData.barcodeData} />
+                    </div>
+                  ) : passData.barcodeFormat === 'PKBarcodeFormatAztec' ? (
+                    <div className="w-36 h-36 flex items-center justify-center">
+                      <AztecBarcode data={passData.barcodeData} />
                     </div>
                   ) : (
                     <div className="w-40 h-40 bg-gray-100 rounded flex items-center justify-center">
@@ -197,20 +205,106 @@ function Code128Barcode({ data }: { data: string }) {
   // Simple visual representation of Code128 barcode
   const bars = useMemo(() => {
     const result: boolean[] = [];
-    for (let i = 0; i < Math.min(data.length * 8, 100); i++) {
-      result.push(Math.random() > 0.4);
+    // Generate deterministic pattern based on data
+    for (let i = 0; i < Math.min(data.length * 11, 120); i++) {
+      const charCode = data.charCodeAt(i % data.length) || 0;
+      result.push((charCode + i) % 3 !== 0);
     }
     return result;
   }, [data]);
 
   return (
-    <div className="flex h-12 gap-px">
+    <div className="flex h-14 items-end">
       {bars.map((filled, i) => (
         <div
           key={i}
-          className={`h-full ${filled ? 'bg-black' : 'bg-white'}`}
-          style={{ width: filled ? (i % 3 === 0 ? '2px' : '1px') : '1px' }}
+          className={filled ? 'bg-black' : 'bg-white'}
+          style={{ 
+            width: (i % 4 === 0) ? '2px' : '1px',
+            height: '100%'
+          }}
         />
+      ))}
+    </div>
+  );
+}
+
+function PDF417Barcode({ data }: { data: string }) {
+  // PDF417 is a stacked linear barcode - multiple rows of bars
+  const rows = useMemo(() => {
+    const result: boolean[][] = [];
+    const numRows = 8;
+    const colsPerRow = 60;
+    
+    for (let row = 0; row < numRows; row++) {
+      const rowData: boolean[] = [];
+      for (let col = 0; col < colsPerRow; col++) {
+        const charCode = data.charCodeAt((row + col) % data.length) || 0;
+        rowData.push((charCode + row + col) % 3 !== 0);
+      }
+      result.push(rowData);
+    }
+    return result;
+  }, [data]);
+
+  return (
+    <div className="flex flex-col gap-px">
+      {rows.map((row, rowIndex) => (
+        <div key={rowIndex} className="flex h-3">
+          {row.map((filled, colIndex) => (
+            <div
+              key={colIndex}
+              className={filled ? 'bg-black' : 'bg-white'}
+              style={{ width: colIndex % 5 === 0 ? '3px' : '2px' }}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AztecBarcode({ data }: { data: string }) {
+  // Aztec is a square 2D barcode with a bullseye center
+  const grid = useMemo(() => {
+    const size = 15;
+    const result: boolean[][] = [];
+    
+    for (let row = 0; row < size; row++) {
+      const rowData: boolean[] = [];
+      for (let col = 0; col < size; col++) {
+        const centerDist = Math.max(Math.abs(row - 7), Math.abs(col - 7));
+        
+        // Create bullseye pattern in center
+        if (centerDist <= 3) {
+          if (centerDist === 0) rowData.push(true);
+          else if (centerDist === 1) rowData.push(false);
+          else if (centerDist === 2) rowData.push(true);
+          else if (centerDist === 3) rowData.push(false);
+          else rowData.push(true);
+        } else {
+          // Data area - deterministic pattern based on input
+          const charCode = data.charCodeAt((row + col) % data.length) || 0;
+          rowData.push((charCode + row * col) % 2 === 0);
+        }
+      }
+      result.push(rowData);
+    }
+    return result;
+  }, [data]);
+
+  return (
+    <div className="flex flex-col">
+      {grid.map((row, rowIndex) => (
+        <div key={rowIndex} className="flex">
+          {row.map((filled, colIndex) => (
+            <div
+              key={colIndex}
+              className={filled ? 'bg-black' : 'bg-white'}
+              style={{ width: '8px', height: '8px' }}
+            />
+          ))}
+        </div>
       ))}
     </div>
   );
