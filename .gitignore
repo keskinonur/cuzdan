@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Certificates (NEVER commit these!)
+certs/*.pem
+certs/*.p12
+certs/*.cer
+certs/*.certSigningRequest
+!certs/.gitkeep
+!certs/README.md
+
+# Bun (keep bun.lock, ignore binary lockfile if exists)
+bun.lockb
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-*
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+bun-debug.log*
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+*.bak
+
+# Generated passes (for testing)
+*.pkpass
+
+# Turbo
+.turbo/
+
+# Vercel
+.vercel/

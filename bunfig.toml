@@ -1,0 +1,7 @@
+[install]
+# Use exact versions for reproducibility
+exact = true
+
+[run]
+# Silence Bun's experimental warnings
+silent = false

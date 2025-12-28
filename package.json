@@ -1,0 +1,64 @@
+{
+  "name": "cuzdan",
+  "version": "1.0.0",
+  "description": "Create beautiful Apple Wallet passes - A modern, creative pass generator",
+  "author": "Onur Keskin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keskinonur/cuzdan.git"
+  },
+  "keywords": [
+    "apple-wallet",
+    "pkpass",
+    "passkit",
+    "wallet-pass",
+    "bun",
+    "hono",
+    "react"
+  ],
+  "type": "module",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "scripts": {
+    "dev": "bun run --watch server/index.ts",
+    "dev:client": "bunx --bun vite",
+    "dev:all": "bun run dev & bun run dev:client",
+    "build": "bun run build:client && bun run build:server",
+    "build:client": "bunx --bun vite build",
+    "build:server": "bun build server/index.ts --outdir dist/server --target bun --minify",
+    "compile": "bun run build && bun build server/index.ts --compile --outfile dist/cuzdan --target bun --minify",
+    "start": "NODE_ENV=production bun run dist/server/index.js",
+    "start:binary": "NODE_ENV=production ./dist/cuzdan",
+    "typecheck": "bunx --bun tsc --noEmit",
+    "generate:certs": "bun run scripts/generate-dev-certs.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.0",
+    "passkit-generator": "^3.2.0",
+    "nanoid": "^5.0.7",
+    "jsqr": "^1.4.0",
+    "qrcode": "^1.5.4",
+    "do-not-zip": "^1.0.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "framer-motion": "^11.15.0",
+    "lucide-react": "^0.468.0",
+    "react-dropzone": "^14.3.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/qrcode": "^1.5.5",
+    "@uidotdev/usehooks": "^2.4.1",
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0"
+  }
+}
