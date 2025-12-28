@@ -20,11 +20,27 @@ A modern web app to create Apple Wallet passes (.pkpass files). Built with Bun +
 
 ## Screenshots
 
-The app features a modern dark UI with:
-- Template selection grid
-- Live pass preview as you customize
-- Barcode scanning modal
-- QR code sharing modal for easy iPhone transfer
+### Desktop
+
+| Home | Pass Builder | Share Modal |
+|:---:|:---:|:---:|
+| ![Home](docs/screenshots/desktop-welcome.png) | ![Builder](docs/screenshots/desktop-create.png) | ![Share](docs/screenshots/desktop-share.png) |
+
+| Documentation | API Reference |
+|:---:|:---:|
+| ![Docs](docs/screenshots/desktop-docs.png) | ![API](docs/screenshots/desktop-api.png) |
+
+### Mobile
+
+| Home | Builder | Share |
+|:---:|:---:|:---:|
+| ![Mobile Home](docs/screenshots/mobile-welcome.png) | ![Mobile Builder](docs/screenshots/mobile-create.png) | ![Mobile Share](docs/screenshots/mobile-share.png) |
+
+### Turkish Language Support
+
+| Home (TR) | Docs (TR) | API (TR) |
+|:---:|:---:|:---:|
+| ![Home TR](docs/screenshots/desktop-welcome_TR.png) | ![Docs TR](docs/screenshots/desktop-docs_TR.png) | ![API TR](docs/screenshots/desktop-api_TR.png) |
 
 ## Quick Start
 
